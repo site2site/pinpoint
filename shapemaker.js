@@ -60,7 +60,7 @@ var example_data_3 =
 
 var data = example_data_2;
 var orgimg = "images/testphoto2.jpg";
-var destimg = "images/polygon.png";
+var destimg = orgimg + ".shaped.png";
 
 
 ////////////////////////////
@@ -105,7 +105,7 @@ if(data["coordinates"].length >= 3) {
 //chained imagemagick command - create a mask, mask it, write to destimg
 imcommand = "convert -size " + maxX + "x" + maxY + " xc:black -stroke none -fill white -draw \"" + mask_svg + "\" -write mpr:mask +delete " + orgimg + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destimg;
 
-console.log(imcommand);
+//console.log(imcommand);
 
 this.exec_process = exec(imcommand, function (error, stdout, stderr) {
 //  console.log('stdout: ' + stdout);
