@@ -16,8 +16,11 @@ var events = require("events"),
 // sourced from: https://github.com/peterbraden/node-opencv/tree/master/examples
 //
 // for test purposes:
-// http://vps.provolot.com/site2site/pinpoint/testphoto1.JPG
-// 638 x 479
+// http://vps.provolot.com/site2site/pinpoint/images/testphoto2.JPG
+
+////////////////////////////
+//////////////// TEST DATA
+////////////////////////////
 
 var example_data_1 = 
 {
@@ -56,15 +59,20 @@ var example_data_3 =
 }
 
 var data = example_data_2;
+var orgimg = "images/testphoto2.jpg";
+var destimg = "images/polygon.png";
+
+
+////////////////////////////
+//////////////// TEST DATA END
+////////////////////////////
+
 
 //get maxX and maxY from data
 var maxX = data["image_width"];
 var maxY = data["image_height"];
 
-var orgimg = "images/testphoto2.jpg";
-var destimg = "images/polygon.png";
-
-var mask_svg = ""
+var mask_svg = "";
 
 if(data["coordinates"].length >= 3) {
 	//DRAW A POLYGON
