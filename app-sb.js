@@ -6,7 +6,31 @@
 
 var cv = require('opencv');
 var console = require('console');
-var shapemaker = require('./shapemaker')
+var shapemaker = require('./shapemaker');
+var Spacebrew = require('./sb-1.3.0').Spacebrew,
+    sb,
+    fs = require("fs");
+
+
+var files_location = "files/";
+var filepath = "./" + files_location;
+var hosted_path = "http://api.sitetosite.co/modules/pinpoint/" + files_location;
+
+
+sb = new Spacebrew.Client( config.server, config.name, config.description );  // create spacebrew client object
+
+
+sb.addSubscribe("file input", "binary");  // subscription for receiving image binary
+
+sb.addPublish("src url", "string", "");   // publish source image
+sb.addPublish("shape url", "string", "");   // publish source image
+
+
+
+
+
+
+
 
 var lowThresh = 0;
 var highThresh = 100;
