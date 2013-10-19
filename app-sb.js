@@ -10,7 +10,7 @@ var files_location = "/files/";
 var filepath = __dirname + files_location;
 var input_directory = "input/";
 var output_directory = "output/";
-var hosted_path = "http://api.sitetosite.co/modules/pinpoint/" + files_location;
+var hosted_path = "http://api.sitetosite.co/modules/pinpoint" + files_location;
 
 
 sb = new Spacebrew.Client( config.server, config.name, config.description );  // create spacebrew client object
