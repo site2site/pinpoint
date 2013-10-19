@@ -4,8 +4,7 @@ var events = require("events"),
 	spawn = require("child_process").spawn,
 	fs = require("fs"),
 	exec = require('child_process').exec,
-	d3 = require("d3"),
-	gm = require("gm");
+	d3 = require("d3");
 
 
 
