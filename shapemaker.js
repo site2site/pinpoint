@@ -51,10 +51,6 @@ var example_data_3 =
 	]
 }
 
-var data = example_data_2;
-var orgimg = "images/testphoto2.jpg";
-var destimg = orgimg + ".shaped.png";
-
 
 ////////////////////////////
 //////////////// TEST DATA END
@@ -74,9 +70,10 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 	if(data["coordinates"].length >= 3) {
 		//DRAW A POLYGON
 
-		//get convex hull of coordinates
+		//get convex hull of coordinates - thanks, d3
 		var coordhull = d3.geom.hull(data["coordinates"]);
 		var mask_svg = "polygon " + coordhull.join(" ") ;
+
 	} else if(data["coordinates"].length >= 2) {
 		//DRAW A CIRCLE
 
@@ -97,15 +94,12 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 		var edgeY = data["coordinates"][0][1];
 
 		mask_svg = "circle " + midX + "," + midY + " " + edgeX + "," + edgeY;
-
-		console.log("drawing circle" + mask_svg);
 	}
 
-	//chained imagemagick command - create a mask, mask it, write to destimg
+	//chained imagemagick command - create a mask, mask it, auto-orient image to get 'bake' exif orientation', write to destimg
 	imcommand = "convert -size " + maxX + "x" + maxY + " xc:black -stroke none -fill white -draw \"" + mask_svg + "\" -write mpr:mask +delete mpr:mask -auto-orient -write mpr:mask +delete " + orgimg + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destimg;
 
-	//console.log(imcommand);
-
+	//execute.
 	this.exec_process = exec(imcommand, function (error, stdout, stderr) {
 	//  console.log('stdout: ' + stdout);
 	//  console.log('stderr: ' + stderr);
