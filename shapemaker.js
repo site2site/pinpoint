@@ -1,8 +1,4 @@
 var events = require("events"),
-	sys = require("sys"),
-	util = require("util"),
-	spawn = require("child_process").spawn,
-	fs = require("fs"),
 	exec = require('child_process').exec,
 	d3 = require("d3");
 
@@ -55,10 +51,6 @@ var example_data_3 =
 	]
 }
 
-var data = example_data_2;
-var orgimg = "images/testphoto2.jpg";
-var destimg = orgimg + ".shaped.png";
-
 
 ////////////////////////////
 //////////////// TEST DATA END
@@ -67,10 +59,14 @@ var destimg = orgimg + ".shaped.png";
 function shapemaker() {
 }
 
+<<<<<<< HEAD
 util.inherits( shapemaker, events.EventEmitter );
 
 
 shapemaker.prototype.mask = function(data, orgimg, destimg, callback) {
+=======
+shapemaker.prototype.mask = function(data, orgimg, destimg) {
+>>>>>>> 58d824f52490d25623a16054077da6c5a10648aa
 
 	//get maxX and maxY from data
 	var maxX = data["image_width"];
@@ -81,9 +77,10 @@ shapemaker.prototype.mask = function(data, orgimg, destimg, callback) {
 	if(data["coordinates"].length >= 3) {
 		//DRAW A POLYGON
 
-		//get convex hull of coordinates
+		//get convex hull of coordinates - thanks, d3
 		var coordhull = d3.geom.hull(data["coordinates"]);
 		var mask_svg = "polygon " + coordhull.join(" ") ;
+
 	} else if(data["coordinates"].length >= 2) {
 		//DRAW A CIRCLE
 
@@ -104,15 +101,12 @@ shapemaker.prototype.mask = function(data, orgimg, destimg, callback) {
 		var edgeY = data["coordinates"][0][1];
 
 		mask_svg = "circle " + midX + "," + midY + " " + edgeX + "," + edgeY;
-
-		console.log("drawing circle" + mask_svg);
 	}
 
-	//chained imagemagick command - create a mask, mask it, write to destimg
+	//chained imagemagick command - create a mask, mask it, auto-orient image to get 'bake' exif orientation', write to destimg
 	imcommand = "convert -size " + maxX + "x" + maxY + " xc:black -stroke none -fill white -draw \"" + mask_svg + "\" -write mpr:mask +delete mpr:mask -auto-orient -write mpr:mask +delete " + orgimg + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destimg;
 
-	//console.log(imcommand);
-
+	//execute.
 	this.exec_process = exec(imcommand, function (error, stdout, stderr) {
 	//  console.log('stdout: ' + stdout);
 	//  console.log('stderr: ' + stderr);
@@ -123,9 +117,6 @@ shapemaker.prototype.mask = function(data, orgimg, destimg, callback) {
 			console.log(destimg);
 			callback(null, destimg);
 		}
-
-		//emit exit signal for process chaining over time
-		//this.emit( "exit", destimg);
 
 	});
 };
