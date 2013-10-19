@@ -35,7 +35,7 @@ function onOpen(){
 }
 
 
-function onCustomMessage(){
+function onCustomMessage(name, value, type){
 
   switch(type){
     case "binary":
