@@ -46,21 +46,10 @@ console.log(coordhull_svg);
 console.log("yo");
 
 
+//testcommand = "convert -size 213x160 xc:white -stroke black -strokewidth 1 -fill none -draw \"circle 106,80 106,10\" circle.jpg";
+imcommand = "convert -size 638x479 xc:white -stroke black -strokewidth 1 -fill none -draw \"polygon 50,50 500,60 60,300 510,310\" polygon.jpg";
 
-
-var imcommand = "convert";
-var imargs = "-size 213x160 xc:white -stroke black -strokewidth 1 -fill blue -draw circle 106,80 106,10 circle.jpg";
-//var imargs = depth_imagepath + " -colorspace Gray -write mpr:mask +delete mpr:mask -fill white -opaque black -write mpr:mask +delete mpr:mask -threshold " + threshold + " -write mpr:mask +delete mpr:mask -negate -write mpr:mask +delete " + rgb_imagepath + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destination_path + imagename;
-//get rid of double spaces
-imargs = imargs.replace(/ +(?= )/g,'');
-imargs = imargs.split(" ");
-console.log(imargs);
-
-
-testcommand = "convert -size 213x160 xc:white -stroke black -strokewidth 1 -fill none -draw \"circle 106,80 106,10\" circle.jpg";
-testcommand = "convert -size 638x479 xc:white -stroke black -strokewidth 1 -fill none -draw \"polygon 50,50 500,60 60,300 510,310\" polygon.jpg";
-
-this.exec_process = exec(testcommand, function (error, stdout, stderr) {
+this.exec_process = exec(imcommand, function (error, stdout, stderr) {
   console.log('stdout: ' + stdout);
 //  console.log('stderr: ' + stderr);
   if (error !== null) {
