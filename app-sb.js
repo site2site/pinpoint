@@ -6,7 +6,7 @@ var Spacebrew = require('./sb-1.3.0').Spacebrew,
     config = require("./machine");
 
 
-var files_location = "files/";
+var files_location = "/files/";
 var filepath = __dirname + files_location;
 var input_directory = "input/";
 var output_directory = "output/";
