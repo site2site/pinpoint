@@ -9,7 +9,8 @@
     ],
     "dependencies": {
         "d3": "*",
-        "opencv": "*"
+        "opencv": "*",
+        "ws": "*"
     },
     "engines": {
         "node": ">=0.10.0"

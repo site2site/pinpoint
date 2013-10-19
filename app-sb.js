@@ -2,7 +2,8 @@ var cv = require('opencv');
 var shapemaker = require('./shapemaker');
 var Spacebrew = require('./sb-1.3.0').Spacebrew,
     sb,
-    fs = require("fs");
+    fs = require("fs"),
+    config = require("./machine");
 
 
 var files_location = "files/";
