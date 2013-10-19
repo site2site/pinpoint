@@ -70,7 +70,7 @@ function shapemaker() {
 util.inherits( shapemaker, events.EventEmitter );
 
 
-shapemaker.prototype.mask = function(data, orgimg, destimg) {
+shapemaker.prototype.mask = function(data, orgimg, destimg, callback) {
 
 	//get maxX and maxY from data
 	var maxX = data["image_width"];
@@ -118,8 +118,10 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 	//  console.log('stderr: ' + stderr);
 		if (error !== null) {
 			console.log('exec error: ' + error);
+			callback(err);
 		} else {
 			console.log(destimg);
+			callback(null, destimg);
 		}
 
 		//emit exit signal for process chaining over time
