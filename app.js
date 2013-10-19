@@ -19,7 +19,7 @@ var RED   = [0, 0, 255]; //B, G, R
 var GREEN = [0, 255, 0]; //B, G, R
 var WHITE = [255, 255, 255]; //B, G, R
 
-var orgimg = "images/testphoto2.jpg";
+var orgimg = "images/testphoto3.jpg";
 var destimg = orgimg + ".shaped.png";
 
 cv.readImage(orgimg, function(err, im) {
@@ -57,11 +57,16 @@ cv.readImage(orgimg, function(err, im) {
     points.push([av_x,av_y])
   }
 
+  console.log('shape points',points);
+
   var shape = new shapemaker();
-  shape.mask({
-    image_width: 816,
-    image_height: 612,
+  var data = {
+    image_width: 1632,
+    image_height: 1224,
     coordinates: points
-  }, orgimg, destimg);
+  };
+
+  console.log(data);
+  shape.mask(data, orgimg, destimg);
 
 });

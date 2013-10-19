@@ -78,6 +78,8 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 
 	var mask_svg = "";
 
+	console.log(data["coordinates"]);
+
 	if(data["coordinates"].length >= 3) {
 		//DRAW A POLYGON
 
@@ -136,5 +138,4 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 
 module.exports = shapemaker;
 
-shapemaker.prototype.mask(data, orgimg, destimg);
 
