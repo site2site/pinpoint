@@ -118,10 +118,12 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 	//  console.log('stderr: ' + stderr);
 		if (error !== null) {
 			console.log('exec error: ' + error);
+		} else {
+			console.log(destimg);
 		}
 
 		//emit exit signal for process chaining over time
-//		this.emit( "exit", destimg);
+		//this.emit( "exit", destimg);
 
 	});
 
