@@ -1,65 +1,91 @@
-#!/usr/bin/env node
+var events = require("events"),
+	sys = require("sys"),
+	util = require("util"),
+	spawn = require("child_process").spawn,
+	fs = require("fs"),
+	exec = require('child_process').exec,
+	d3 = require("d3"),
+	gm = require("gm");
+
+
 
 //
 // Detects triangles and quadrilaterals
 //
 
 // sourced from: https://github.com/peterbraden/node-opencv/tree/master/examples
+//
+// for test purposes:
+// http://vps.provolot.com/site2site/pinpoint/testphoto1.JPG
+// 638 x 479
+var example_date = 
+{
+	image_width: 638,
+	image_height: 479,
+	coordinates: [
+		[50, 50],
+		[500, 60],
+		[60, 300],
+		[510, 310],
+		[200, 200],
+		[300, 300],
+	]
+}
+/* var groupPath = function(d) {
+        return "M" + d3.geom.hull(d.values.map(function(i) {
+            console.log(i);
+            return [$(i).attr("cx"), $(i).attr("cy")];
+        })).join("L") + "Z";
+    }; */
 
-var cv = require('opencv');
+//get convex hull of coordinates
+var coordhull = d3.geom.hull(example_date["coordinates"]);
+var coordhull_svg = "M" + coordhull.join("L") + "Z";
 
-var lowThresh = 0;
-var highThresh = 100;
-var nIters = 2;
-var minArea = 2000;
-
-var BLUE = [0, 255, 0]; //B, G, R
-var RED   = [0, 0, 255]; //B, G, R
-var GREEN = [0, 255, 0]; //B, G, R
-var WHITE = [255, 255, 255]; //B, G, R
+console.log(coordhull_svg);
+console.log("yo");
 
 
-cv.readImage('../test/square2.jpg', function(err, im) {
 
-  var out = new cv.Matrix(im.height(), im.width());
 
-  // convert the image to grey scale
-  im.convertGrayscale();
+var imcommand = "convert";
+var imargs = "-size 213x160 xc:white -stroke black -strokewidth 1 -fill blue -draw circle 106,80 106,10 circle.jpg";
+//var imargs = depth_imagepath + " -colorspace Gray -write mpr:mask +delete mpr:mask -fill white -opaque black -write mpr:mask +delete mpr:mask -threshold " + threshold + " -write mpr:mask +delete mpr:mask -negate -write mpr:mask +delete " + rgb_imagepath + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destination_path + imagename;
+//get rid of double spaces
+imargs = imargs.replace(/ +(?= )/g,'');
+imargs = imargs.split(" ");
+console.log(imargs);
 
-  //make a copy of the image called im_canny (not sure why?)
-  im_canny = im.copy();
 
-  im_canny.canny(lowThresh, highThresh);
-  im_canny.dilate(nIters);
+testcommand = "convert -size 213x160 xc:white -stroke black -strokewidth 1 -fill none -draw \"circle 106,80 106,10\" circle.jpg";
+testcommand = "convert -size 638x479 xc:white -stroke black -strokewidth 1 -fill none -draw \"polygon 50,50 500,60 60,300 510,310\" polygon.jpg";
 
-//uses a for loop to find number of contours
-  contours = im_canny.findContours();
-
-  for(i = 0; i < contours.size(); i++) {
-
-    if(contours.area(i) < minArea) continue;
-
-    // arcLength tells you how long each face is, so that you can cut out any small shape
-    var arcLength = contours.arcLength(i, true);
-    contours.approxPolyDP(i, 0.01 * arcLength, true);
-
-    // chooses a drawing color based on number of contours
-    switch(contours.cornerCount(i)) {
-    case 3:
-      out.drawContour(contours, i, GREEN);
-      break;
-    case 4:
-      out.drawContour(contours, i, RED);
-      break;
-    case 5:
-    out.drawContour(contours,i, BLUE);
-    break;
-    default:
-      out.drawContour(contours, i, WHITE);
-
-    }
+this.exec_process = exec(testcommand, function (error, stdout, stderr) {
+  console.log('stdout: ' + stdout);
+//  console.log('stderr: ' + stderr);
+  if (error !== null) {
+    console.log('exec error: ' + error);
   }
-
-//saves image
-  out.save('../test/out.png');
 });
+
+/*
+this.spawn_process = spawn(imcommand, imargs);
+this.spawn_process.stdout.on('data', function (data) {
+	console.log('stdout: ' + data);
+	dout = data;
+});
+
+this.spawn_process.stderr.on('data', function (data) {
+	console.log('stderr: ' + data);
+	derr = data;
+});
+
+this.spawn_process.on('close', function (code) {    
+	//emit exit signal for process chaining over time
+
+	PROCESS_RUNNING_FLAG = false;
+	this.spawn_process = null;
+});
+*/
+
+
