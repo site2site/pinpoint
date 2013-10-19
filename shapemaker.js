@@ -1,8 +1,4 @@
 var events = require("events"),
-	sys = require("sys"),
-	util = require("util"),
-	spawn = require("child_process").spawn,
-	fs = require("fs"),
 	exec = require('child_process').exec,
 	d3 = require("d3");
 
@@ -67,9 +63,6 @@ var destimg = orgimg + ".shaped.png";
 function shapemaker() {
 }
 
-util.inherits( shapemaker, events.EventEmitter );
-
-
 shapemaker.prototype.mask = function(data, orgimg, destimg) {
 
 	//get maxX and maxY from data
@@ -121,9 +114,6 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 		} else {
 			console.log(destimg);
 		}
-
-		//emit exit signal for process chaining over time
-		//this.emit( "exit", destimg);
 
 	});
 };

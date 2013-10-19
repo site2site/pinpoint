@@ -1,23 +1,12 @@
-#!/usr/bin/env node
-
-//
-// Finds quadrilaterals and fills them with an X
-//
-
 var cv = require('opencv');
-var console = require('console');
 var shapemaker = require('./shapemaker')
 
+// open cv config
 var lowThresh = 0;
 var highThresh = 100;
 var nIters = 2;
 var minArea = 2000;
 var maxArea = 100000;
-
-var BLUE = [0, 255, 0]; //B, G, R
-var RED   = [0, 0, 255]; //B, G, R
-var GREEN = [0, 255, 0]; //B, G, R
-var WHITE = [255, 255, 255]; //B, G, R
 
 var orgimg = "input/testphoto2.jpg";
 var destimg = "output/"+orgimg.replace('input/','');
