@@ -63,7 +63,7 @@ function onCustomMessage(name, value, type){
 
             //console.log('sending url: ' + hosted_path + timestamp_filename);
 
-            sb.emit("input image", "string", hosted_path + input_directory + json_value.filename);
+            sb.send("input image", "string", hosted_path + input_directory + json_value.filename);
             processImage(json_value.filename);
 
           });
@@ -134,7 +134,7 @@ function processImage(orgfilename){
     };
 
     shape.mask(data, orgimg, destimg, function(err, destimage){
-      sb.emit("output image", "string", hosted_path + output_directory +  destimage);
+      sb.send("output image", "string", hosted_path + output_directory +  destimage);
     });
 
   });
