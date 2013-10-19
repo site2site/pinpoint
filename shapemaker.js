@@ -6,8 +6,6 @@ var events = require("events"),
 	exec = require('child_process').exec,
 	d3 = require("d3");
 
-
-
 //
 // Detects triangles and quadrilaterals
 //
@@ -21,7 +19,7 @@ var events = require("events"),
 //////////////// TEST DATA
 ////////////////////////////
 
-var example_data_1 = 
+var example_data_1 =
 {
 	image_width: 816,
 	image_height: 612,
@@ -35,7 +33,7 @@ var example_data_1 =
 	]
 }
 
-var example_data_2 = 
+var example_data_2 =
 {
 	image_width: 816,
 	image_height: 612,
@@ -47,7 +45,7 @@ var example_data_2 =
 	]
 }
 
-var example_data_3 = 
+var example_data_3 =
 {
 	image_width: 816,
 	image_height: 612,
@@ -90,21 +88,21 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 		//DRAW A CIRCLE
 
 		//circle x0,y0 x1,y1
-		//The first point x0,y0 is the center, the second point x1,y1 is any other point on the circle, this being used to calculate a radius. 
+		//The first point x0,y0 is the center, the second point x1,y1 is any other point on the circle, this being used to calculate a radius.
 
-		//two coordinates are the outer bounds of a circle. 
+		//two coordinates are the outer bounds of a circle.
 		//so: we get a midpoint between the points and use that as the center;
 		//then we use any point as the edge.
 
-		var midX = 
-			(data["coordinates"][0][0] + 
+		var midX =
+			(data["coordinates"][0][0] +
 			data["coordinates"][1][0]) / 2;
-		var midY = 
-			(data["coordinates"][0][1] + 
+		var midY =
+			(data["coordinates"][0][1] +
 			data["coordinates"][1][1]) / 2;
 		var edgeX = data["coordinates"][0][0];
 		var edgeY = data["coordinates"][1][0];
-		
+
 		mask_svg = "circle " + midX + "," + midY + " " + edgeX + "," + edgeY;
 	}
 

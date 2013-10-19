@@ -6,6 +6,7 @@
 
 var cv = require('opencv');
 var console = require('console');
+var shapemaker = require('./shapemaker')
 
 var lowThresh = 0;
 var highThresh = 100;
@@ -18,9 +19,10 @@ var RED   = [0, 0, 255]; //B, G, R
 var GREEN = [0, 255, 0]; //B, G, R
 var WHITE = [255, 255, 255]; //B, G, R
 
-cv.readImage('./images/testphoto1.jpg', function(err, im) {
+var orgimg = "images/testphoto2.jpg";
+var destimg = orgimg + ".shaped.png";
 
-  // var out = im.copy();
+cv.readImage(orgimg, function(err, im) {
 
   im.convertGrayscale();
   im_canny = im.copy();
@@ -28,7 +30,7 @@ cv.readImage('./images/testphoto1.jpg', function(err, im) {
   im_canny.dilate(nIters);
 
   contours = im_canny.findContours();
-  var shapes = [];
+  var points = [];
 
   for(i = 0; i < contours.size(); i++) {
 
@@ -52,17 +54,14 @@ cv.readImage('./images/testphoto1.jpg', function(err, im) {
     var av_x = (p0[0] + p1[0] + p2[0] + p3[0])/4;
     var av_y = (p0[1] + p1[1] + p2[1] + p3[1])/4;
 
-    // out.drawContour(contours, i, RED);
-    var asdasd = im_canny.meanStdDev();
-    asdasd.mean.save(['./cimg',i,'.jpg'].join(''))
-
-    shapes.push({
-      color: 'red',
-      center: [av_x,av_y]
-    })
+    points.push([av_x,av_y])
   }
 
-  for(i = 0; i < shapes.length; i++) {
-    // console.dir(shapes[i]);
-  }
+  var shape = new shapemaker();
+  shape.mask({
+    image_width: 816,
+    image_height: 612,
+    coordinates: points
+  }, orgimg, destimg);
+
 });
