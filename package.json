@@ -1,0 +1,17 @@
+{
+    "name": "pinpoint",
+    "description": "Site to Site Raspberry Pi camera module to connect to Spacebrew",
+    "version": "0.0.1",
+    "contributors": [
+        { "name": "Kostadin Krajcev", "email": "<kokikr@gmail.com>" },
+        { "name": "Dan Taeyoung Lee", "email": "<provolot@gmail.com>" },
+        { "name": "Troy Conrad Therrien", "email": "<troyth@gmail.com>" }
+    ],
+    "dependencies": {
+        "d3": "*",
+        "opencv": "*"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    }
+}

@@ -1,5 +1,4 @@
 var cv = require('opencv');
-var console = require('console');
 var shapemaker = require('./shapemaker');
 var Spacebrew = require('./sb-1.3.0').Spacebrew,
     sb,
