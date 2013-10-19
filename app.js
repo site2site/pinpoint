@@ -19,8 +19,8 @@ var RED   = [0, 0, 255]; //B, G, R
 var GREEN = [0, 255, 0]; //B, G, R
 var WHITE = [255, 255, 255]; //B, G, R
 
-var orgimg = "images/testphoto3.jpg";
-var destimg = orgimg + ".shaped.png";
+var orgimg = "input/testphoto2.jpg";
+var destimg = "output/"+orgimg.replace('input/','');
 
 cv.readImage(orgimg, function(err, im) {
 
@@ -35,13 +35,12 @@ cv.readImage(orgimg, function(err, im) {
   for(i = 0; i < contours.size(); i++) {
 
     var area = contours.area(i);
-    if(area < minArea || area > maxArea)
+    if(area < minArea)
       continue;
 
     var arcLength = contours.arcLength(i, true);
     contours.approxPolyDP(i, 0.01 * arcLength, true);
 
-    // only process rectangles (num_of_corners = 4)
     if(contours.cornerCount(i) != 4)
       continue;
 
@@ -54,19 +53,16 @@ cv.readImage(orgimg, function(err, im) {
     var av_x = (p0[0] + p1[0] + p2[0] + p3[0])/4;
     var av_y = (p0[1] + p1[1] + p2[1] + p3[1])/4;
 
-    points.push([av_x,av_y])
+    points.push([av_x,av_y]);
   }
-
-  console.log('shape points',points);
 
   var shape = new shapemaker();
   var data = {
-    image_width: 1632,
-    image_height: 1224,
+    image_width: im_canny.width(),
+    image_height: im_canny.height(),
     coordinates: points
   };
 
-  console.log(data);
   shape.mask(data, orgimg, destimg);
 
 });

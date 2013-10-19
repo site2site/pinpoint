@@ -78,8 +78,6 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 
 	var mask_svg = "";
 
-	console.log(data["coordinates"]);
-
 	if(data["coordinates"].length >= 3) {
 		//DRAW A POLYGON
 
@@ -103,13 +101,15 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 			(data["coordinates"][0][1] +
 			data["coordinates"][1][1]) / 2;
 		var edgeX = data["coordinates"][0][0];
-		var edgeY = data["coordinates"][1][0];
+		var edgeY = data["coordinates"][0][1];
 
 		mask_svg = "circle " + midX + "," + midY + " " + edgeX + "," + edgeY;
+
+		console.log("drawing circle" + mask_svg);
 	}
 
 	//chained imagemagick command - create a mask, mask it, write to destimg
-	imcommand = "convert -size " + maxX + "x" + maxY + " xc:black -stroke none -fill white -draw \"" + mask_svg + "\" -write mpr:mask +delete " + orgimg + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destimg;
+	imcommand = "convert -size " + maxX + "x" + maxY + " xc:black -stroke none -fill white -draw \"" + mask_svg + "\" -write mpr:mask +delete mpr:mask -auto-orient -write mpr:mask +delete " + orgimg + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destimg;
 
 	//console.log(imcommand);
 
@@ -126,13 +126,6 @@ shapemaker.prototype.mask = function(data, orgimg, destimg) {
 		//this.emit( "exit", destimg);
 
 	});
-
-
-
-
-
-
-
 };
 
 
