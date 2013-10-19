@@ -45,22 +45,59 @@ var example_data_2 =
 	]
 }
 
+var example_data_3 = 
+{
+	image_width: 816,
+	image_height: 612,
+	coordinates: [
+		[282,84],
+		[468,300],
+	]
+}
+
 var data = example_data_2;
 
-//get convex hull of coordinates
-var coordhull = d3.geom.hull(data["coordinates"]);
-var coordhull_svg = "polygon " + coordhull.join(" ") ;
+//get maxX and maxY from data
 var maxX = data["image_width"];
 var maxY = data["image_height"];
+
 var orgimg = "images/testphoto2.jpg";
-var destimg = "polygon.png";
+var destimg = "images/polygon.png";
 
-//console.log(coordhull_svg);
-//testcommand = "convert -size 213x160 xc:white -stroke black -strokewidth 1 -fill none -draw \"circle 106,80 106,10\" circle.jpg";
-//imcommand = "convert -size 638x479 xc:white -stroke black -strokewidth 1 -fill none -draw \"polygon 50,50 500,60 60,300 510,310\" polygon.jpg";
-//imcommand = "convert -size " + maxX + "x" + maxY + " xc:none -stroke none -fill black -draw \"" + coordhull_svg + "\" " + destimg;
-imcommand = "convert -size " + maxX + "x" + maxY + " xc:black -stroke none -fill white -draw \"" + coordhull_svg + "\" -write mpr:mask +delete " + orgimg + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destimg;
+var mask_svg = ""
 
+if(data["coordinates"].length >= 3) {
+	//DRAW A POLYGON
+
+	//get convex hull of coordinates
+	var coordhull = d3.geom.hull(data["coordinates"]);
+	var mask_svg = "polygon " + coordhull.join(" ") ;
+} else if(data["coordinates"].length >= 2) {
+	//DRAW A CIRCLE
+
+	//circle x0,y0 x1,y1
+	//The first point x0,y0 is the center, the second point x1,y1 is any other point on the circle, this being used to calculate a radius. 
+
+	//two coordinates are the outer bounds of a circle. 
+	//so: we get a midpoint between the points and use that as the center;
+	//then we use any point as the edge.
+
+	var midX = 
+		(data["coordinates"][0][0] + 
+		data["coordinates"][1][0]) / 2;
+	var midY = 
+		(data["coordinates"][0][1] + 
+		data["coordinates"][1][1]) / 2;
+	var edgeX = data["coordinates"][0][0];
+	var edgeY = data["coordinates"][1][0];
+	
+	mask_svg = "circle " + midX + "," + midY + " " + edgeX + "," + edgeY;
+}
+
+//chained imagemagick command - create a mask, mask it, write to destimg
+imcommand = "convert -size " + maxX + "x" + maxY + " xc:black -stroke none -fill white -draw \"" + mask_svg + "\" -write mpr:mask +delete " + orgimg + " mpr:mask -alpha Off -compose CopyOpacity -composite " + destimg;
+
+console.log(imcommand);
 
 this.exec_process = exec(imcommand, function (error, stdout, stderr) {
 //  console.log('stdout: ' + stdout);
@@ -70,24 +107,5 @@ this.exec_process = exec(imcommand, function (error, stdout, stderr) {
   }
 });
 
-/*
-this.spawn_process = spawn(imcommand, imargs);
-this.spawn_process.stdout.on('data', function (data) {
-	console.log('stdout: ' + data);
-	dout = data;
-});
-
-this.spawn_process.stderr.on('data', function (data) {
-	console.log('stderr: ' + data);
-	derr = data;
-});
-
-this.spawn_process.on('close', function (code) {    
-	//emit exit signal for process chaining over time
-
-	PROCESS_RUNNING_FLAG = false;
-	this.spawn_process = null;
-});
-*/
 
 
