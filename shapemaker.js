@@ -59,14 +59,10 @@ var example_data_3 =
 function shapemaker() {
 }
 
-<<<<<<< HEAD
-util.inherits( shapemaker, events.EventEmitter );
 
 
 shapemaker.prototype.mask = function(data, orgimg, destimg, callback) {
-=======
-shapemaker.prototype.mask = function(data, orgimg, destimg) {
->>>>>>> 58d824f52490d25623a16054077da6c5a10648aa
+
 
 	//get maxX and maxY from data
 	var maxX = data["image_width"];
