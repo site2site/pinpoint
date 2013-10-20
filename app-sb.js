@@ -102,6 +102,8 @@ function processImage(orgfilename){
     contours = im_canny.findContours();
     var points = [];
 
+    console.log("contours size = " + contours.size());
+
     for(i = 0; i < contours.size(); i++) {
 
       var area = contours.area(i);
