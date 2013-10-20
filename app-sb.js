@@ -133,7 +133,7 @@ function processImage(orgfilename){
       coordinates: points
     };
 
-    console.log(coordinates);
+    console.log(points);
 
     shape.mask(data, orgimg, destimg, function(err, destimage){
       sb.send("output image", "string", hosted_path + output_directory + orgfilename);
