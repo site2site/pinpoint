@@ -81,7 +81,7 @@ function onCustomMessage(name, value, type){
 var lowThresh = 0;
 var highThresh = 100;
 var nIters = 2;
-var minArea = 100;
+var minArea = 2000;
 var maxArea = 100000;
 
 //var orgimg = "input/testphoto2.jpg";
