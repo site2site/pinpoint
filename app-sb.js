@@ -107,6 +107,8 @@ function processImage(orgfilename){
     for(i = 0; i < contours.size(); i++) {
 
       var area = contours.area(i);
+
+      console.log("area" + area);
       if(area < minArea)
         continue;
 
